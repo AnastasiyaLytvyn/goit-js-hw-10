@@ -19,19 +19,16 @@ body {
   margin-bottom: 16px;
 }
 
-.country-list {
-  list-style: none;
-}
-
-.country-list__item {
+.country__list {
   display: flex;
   flex-wrap: wrap;
   gap: 15px;
   align-items: center;
+  list-style: none;
 }
-.country-list__name {
-  width: 150px;
-  font-size: 15px;
+
+.country__list-name {
+  font-size: 16px;
   font-weight: 400;
 }
 
@@ -41,15 +38,12 @@ li {
 
 .country__name {
   margin: 10px 0px;
-  font-size: 35px;
+  font-size: 25px;
   font-weight: 800;
 }
 
-.info {
+.country__text {
   font-size: 20px;
   font-weight: 400;
-}
-
-.text {
-  font-weight: 800;
+  font-weight: 700;
 }

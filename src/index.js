@@ -12,16 +12,18 @@ getEl('#search-box').addEventListener(
 );
 
 function onInput(e) {
-  const inputValue = getEl('#search-box').value.trim();
+  const inputValue = e.target.value.trim();
   console.log(inputValue);
   if (inputValue === '') {
     getEl('.country-list').innerHTML = '';
     getEl('.country-info').innerHTML = '';
+  } else {
+    fetchCountries(inputValue)
+      .then(renderCountry)
+      .catch(error => {
+        Notify.failure('Oops, there is no country with that name');
+      });
   }
-
-  fetchCountries(inputValue)
-    .then(renderCountry)
-    .catch(() => console.log(error));
 }
 
 function renderCountry(data) {
@@ -32,7 +34,7 @@ function renderCountry(data) {
     );
   } else if (data.length === 1) {
     getEl('.country-list').innerHTML = '';
-    getEl('.country-info').innerHTML = renderCountryInfo[0];
+    getEl('.country-info').innerHTML = renderCountryInfo(data[0]);
   } else {
     const list = data.map(country => renderCountryList(country)).join('');
     getEl('.country-list').insertAdjacentHTML('beforeend', list);
@@ -42,29 +44,24 @@ function renderCountry(data) {
 
 function renderCountryList({ name, flags }) {
   return `
-    <li class="country-list__item">
-        <img src=${flags.svg} alt="${name.official}" width=80px>
-        <h2 class="country-list__name">${name.official}</h2>
+    <li class="country__list">
+        <img src=${flags.svg} alt="${name.official}" width="50">
+        <h2 class="country__list-name">${name.official}</h2>
     </li>
     `;
 }
 
 function renderCountryInfo({ name, capital, population, flags, languages }) {
   return `
-    <div class="country">
-        <div class="country__title">
-            <img class="country__img" src=${flags.svg} alt="${
-    name.official
-  }" width=200px>
+    <div >
+            <img  src=${flags.svg} alt="${name.official}" width="100">
             <h2 class="country__name">${name.official}</h2>
-        </div>
-        <div class="info">
-            <p class="capital"><span class="text">Capital</span>: ${capital}</p>
-            <p class="population"><span class="text">Population</span>: ${population}</p>
-            <p class="languages"><span class="text">Languages</span>: ${Object.values(
+       
+            <p class="capital"><span class="country__text">Capital</span>: ${capital}</p>
+            <p class="population"><span class="country__text">Population</span>: ${population}</p>
+            <p class="languages"><span class="country__text">Languages</span>: ${Object.values(
               languages
             )}</p>
-        </div>
     </div>
     `;
 }
