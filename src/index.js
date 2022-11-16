@@ -20,9 +20,7 @@ function onInput(e) {
   } else {
     fetchCountries(inputValue)
       .then(renderCountry)
-      .catch(error => {
-        Notify.failure('Oops, there is no country with that name');
-      });
+      .catch(error => console.log(error));
   }
 }
 
